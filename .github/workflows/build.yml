@@ -79,8 +79,12 @@ jobs:
           mkdir -p ../../android/app/src/main/jniLibs
           cargo ndk -t arm64-v8a --platform 29 -o ../../android/app/src/main/jniLibs build
 
-      - name: Verify shared library output
+      - name: Strip debug symbols and verify shared library size
         run: |
+          STRIP="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip"
+          if [ -x "$STRIP" ]; then
+            "$STRIP" --strip-unneeded android/app/src/main/jniLibs/arm64-v8a/libsolidbreak_native.so
+          fi
           ls -lh android/app/src/main/jniLibs/arm64-v8a/libsolidbreak_native.so
 
       - name: Set up Gradle 8.11.1

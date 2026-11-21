@@ -36,14 +36,19 @@ android-activity = { version = "0.6", features = ["native-activity"] }
 android_logger = "0.14"
 log = "0.4"
 
+# Strip DWARF debug info so libsolidbreak_native.so stays well under Android's 4 GB Zip32 limit
 [profile.dev]
 opt-level = 1
+debug = false
+strip = "debuginfo"
 
 [profile.dev.package."*"]
 opt-level = 2
+debug = false
 
 [profile.release]
 opt-level = 3
 lto = "thin"
 codegen-units = 16
-debug = "line-tables-only"
+debug = false
+strip = "debuginfo"
