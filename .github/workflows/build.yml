@@ -39,7 +39,9 @@ jobs:
           workspaces: native/solidbreak-rust
 
       - name: Install cargo-ndk
-        uses: taiki-e/install-action@cargo-ndk
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-ndk
 
       - name: Locate Android NDK
         run: |

@@ -8,7 +8,6 @@
 - **CI-Only Builds** via GitHub Actions (`cargo ndk` + Gradle 8.11.1)
 
 ## Phase 1: Minimal Bootable Native APK (`arm64-v8a`)
-1. Push this scaffold to your `Solid-Break` GitHub repository.
-2. Open the **Actions** tab on GitHub and watch the **Build Solid Break (Phase 1 Debug)** workflow.
-3. Download `solid-break-phase1-arm64-debug` from the workflow artifacts and install it on your tablet (e.g., OnePlus Pad 3) to verify Vulkan rendering.
-4. Paste the CI log (or any compiler errors) back to continue to Phase 2 (Native SAF File Picker + Tablet Touch Controls Bar).
+1. Extract this scaffold into the root of your `Solid-Break` repository.
+2. Push to `main` and open the **Actions** tab on GitHub to watch **Build Solid Break (Phase 1 Debug)**.
+3. Download `solid-break-phase1-arm64-debug` from the workflow artifacts and install it on your tablet to verify Vulkan rendering.
