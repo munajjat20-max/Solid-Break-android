@@ -50,13 +50,14 @@ jobs:
             NDK_DIR="$ANDROID_NDK_LATEST_HOME"
           fi
           echo "ANDROID_NDK_HOME=$NDK_DIR" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_ROOT=$NDK_DIR" >> "$GITHUB_ENV"
           echo "Using NDK: $NDK_DIR"
 
       - name: Build libsolidbreak_native.so (arm64-v8a)
         working-directory: native/solidbreak-rust
         run: |
           mkdir -p ../../android/app/src/main/jniLibs
-          cargo ndk -t arm64-v8a -p 29 -o ../../android/app/src/main/jniLibs build
+          cargo ndk -t arm64-v8a --platform 29 -o ../../android/app/src/main/jniLibs build
 
       - name: Verify shared library output
         run: |
