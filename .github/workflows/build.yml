@@ -22,22 +22,24 @@ jobs:
           rm -rf native/upstream/solidcraft
           git clone --depth 1 https://github.com/tangency-labs/solidcraft.git native/upstream/solidcraft
 
-      - name: "Sync upstream [patch.crates-io] into solidbreak-rust/Cargo.toml"
+      - name: "Sync upstream [patch.crates-io] and Android patches into solidbreak-rust/Cargo.toml"
         run: |
           python3 - << 'EOF'
           import re, pathlib
 
           up = pathlib.Path("native/upstream/solidcraft/Cargo.toml").read_text(encoding="utf-8")
           m = re.search(r'(?ms)^\[patch\.crates-io\]\s*\n(.*?)(?=^\[|\Z)', up)
+          patch_lines = []
           if m:
               body = re.sub(r'path\s*=\s*"([^"]+)"', r'path = "../upstream/solidcraft/\1"', m.group(1))
-              target = pathlib.Path("native/solidbreak-rust/Cargo.toml")
-              txt = target.read_text(encoding="utf-8")
-              txt = txt.rstrip() + "\n\n[patch.crates-io]\n" + body.strip() + "\n"
-              target.write_text(txt, encoding="utf-8")
-              print("Synced [patch.crates-io]:\n" + body.strip())
-          else:
-              print("No [patch.crates-io] section found in upstream Cargo.toml")
+              patch_lines.append(body.strip())
+          patch_lines.append('arboard = { path = "../arboard-android-stub" }')
+
+          target = pathlib.Path("native/solidbreak-rust/Cargo.toml")
+          txt = target.read_text(encoding="utf-8")
+          txt = txt.rstrip() + "\n\n[patch.crates-io]\n" + "\n".join(patch_lines) + "\n"
+          target.write_text(txt, encoding="utf-8")
+          print("Synced [patch.crates-io]:\n" + "\n".join(patch_lines))
           EOF
 
       - name: Set up JDK 17

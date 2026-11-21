@@ -1,0 +1,12 @@
+[package]
+name = "arboard"
+version = "3.7.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Android-compatible no-op stub for arboard (Phase 1); wired to Android ClipboardManager in Phase 2."
+
+[features]
+default = []
+image-data = []
+wayland-data-control = []
+wl-clipboard-rs = []
