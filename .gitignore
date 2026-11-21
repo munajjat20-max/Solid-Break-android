@@ -1,0 +1,19 @@
+# Upstream SolidCraft source (cloned dynamically during GitHub Actions CI)
+native/upstream/
+
+# Rust build artifacts
+**/target/
+**/*.rs.bk
+
+# Android / Gradle build artifacts
+android/.gradle/
+android/build/
+android/app/build/
+android/app/src/main/jniLibs/
+android/local.properties
+android/.idea/
+*.iml
+
+# Signing keys
+*.jks
+*.keystore

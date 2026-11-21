@@ -1,0 +1,56 @@
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
+
+android {
+    namespace = "com.wannazif.solidbreak"
+    compileSdk = 36
+
+    defaultConfig {
+        applicationId = "com.wannazif.solidbreak"
+        minSdk = 29
+        targetSdk = 36
+        versionCode = 1
+        versionName = "0.1.0-phase1"
+
+        ndk {
+            // Phase 1 fast CI target (OnePlus Pad 3 / modern Android tablets)
+            abiFilters += listOf("arm64-v8a")
+        }
+    }
+
+    sourceSets {
+        main {
+            assets.srcDirs += "../../fonts"
+        }
+    }
+
+    buildTypes {
+        debug {
+            isMinifyEnabled = false
+        }
+        release {
+            isMinifyEnabled = false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = false
+        }
+    }
+}
+
+dependencies {
+    implementation("androidx.core:core-ktx:1.15.0")
+}

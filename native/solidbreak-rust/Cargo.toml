@@ -1,0 +1,54 @@
+[package]
+name = "solidbreak-native"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+license = "MIT OR Apache-2.0"
+publish = false
+
+# Standalone workspace so Cargo does not search parent directories
+[workspace]
+
+[lib]
+name = "solidbreak_native"
+crate-type = ["cdylib"]
+
+[dependencies]
+# Upstream SolidCraft crates (cloned into native/upstream/solidcraft during CI)
+# Desktop-only crates (solidcraft-space-mouse, solidcraft-mcp, solidcraft-3dx-client) are excluded.
+solidcraft-engine = { path = "../upstream/solidcraft/crates/engine", default-features = false }
+solidcraft-ui-egui = { path = "../upstream/solidcraft/crates/ui-egui" }
+solidcraft-look = { path = "../upstream/solidcraft/crates/look" }
+solidcraft-ui-text = { path = "../upstream/solidcraft/crates/ui-text" }
+
+# UI & GPU stack matching SolidCraft (egui 0.37 + eframe 0.37 + wgpu 30)
+egui = { version = "0.37", features = ["default_fonts"] }
+eframe = { version = "0.37", default-features = false, features = [
+    "wgpu",
+    "android-native-activity",
+    "default_fonts",
+    "persistence",
+] }
+wgpu = { version = "30", default-features = false, features = ["std", "wgsl", "vulkan", "gles"] }
+
+# Android NativeActivity entry point & logcat logging
+android-activity = { version = "0.6", features = ["native-activity"] }
+android_logger = "0.14"
+log = "0.4"
+
+# SolidCraft's vendored patches (must be declared in the root workspace Cargo.toml)
+[patch.crates-io]
+egui-wgpu = { path = "../upstream/solidcraft/vendor/egui-wgpu" }
+winit = { path = "../upstream/solidcraft/vendor/winit" }
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 2
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 16
+debug = "line-tables-only"
