@@ -36,11 +36,6 @@ android-activity = { version = "0.6", features = ["native-activity"] }
 android_logger = "0.14"
 log = "0.4"
 
-# SolidCraft's vendored patches (must be declared in the root workspace Cargo.toml)
-[patch.crates-io]
-egui-wgpu = { path = "../upstream/solidcraft/vendor/egui-wgpu" }
-winit = { path = "../upstream/solidcraft/vendor/winit" }
-
 [profile.dev]
 opt-level = 1
 
